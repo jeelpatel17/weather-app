@@ -52,6 +52,7 @@ searchBtn.addEventListener("click", fetchWeather);
 detectLocationBtn.addEventListener("click", geoFindMe);
 
 function geoFindMe() {
+  cityInp.value = "";
   const loca = document.getElementById("city");
   weatherInfo.style.display = "flex";
   // AS A FALLBACK, IF A DEVICE BROWSER ISN'T UPDATED AND DOESN'T HAVE GEOLOCATION API FEATURE
