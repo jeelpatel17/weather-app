@@ -26,7 +26,7 @@ async function fetchWeather() {
   city.innerText = "Loading...";
   if (cityInp.value.length > 0) {
     let req = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${cityInp.value}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${cityInp.value}&aqi=no`
     );
     const res = await req.json();
     const geoData = res.location;
@@ -73,7 +73,7 @@ function geoFindMe() {
     displayRegion = data.results[0].locations[0].adminArea3;
     // PASSING THE NAME TO THE WEATHER API
     let reqWeather = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${displayCity}&aqi=no`
+      `https://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${displayCity}&aqi=no`
     );
     const resWeather = await reqWeather.json();
     const myGeoData = resWeather.location;
