@@ -26,20 +26,20 @@ async function fetchWeather() {
   city.innerText = "Loading...";
   if (cityInp.value.length > 0) {
     let req = await fetch(
-      `http://api.weatherstack.com/current?access_key=2bcd3868d74f413f58d7eab77fe642c3&query=${cityInp.value}`
+      `http://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${cityInp.value}&aqi=no`
     );
     const res = await req.json();
     const geoData = res.location;
     const weatherData = res.current;
     console.log(res);
     city.innerText = `${geoData.name}, ${geoData.region}, ${geoData.country}`;
-    temperature.innerHTML = `${weatherData.temperature}&#176;C <span id="feelsLike">(Feels like ${weatherData.feelslike}&#176;C)</span>`;
+    temperature.innerHTML = `${weatherData.temp_c}&#176;C <span id="feelsLike">(Feels like ${weatherData.feelslike_c}&#176;C)</span>`;
     cityInp.value = "";
     // Displaying illustration according to the weather code
     for (let key in weatherCodes) {
       let value = weatherCodes[key];
       for (code of value) {
-        if (code == weatherData.weather_code) {
+        if (code == weatherData.condition.icon.slice(-7, -4)) {
           illustration.setAttribute("src", `./assets/img/${key}.png`);
         }
       }
@@ -73,23 +73,22 @@ function geoFindMe() {
     displayRegion = data.results[0].locations[0].adminArea3;
     // PASSING THE NAME TO THE WEATHER API
     let reqWeather = await fetch(
-      `http://api.weatherstack.com/current?access_key=2bcd3868d74f413f58d7eab77fe642c3&query=${displayCity}`
+      `http://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${displayCity}&aqi=no`
     );
     const resWeather = await reqWeather.json();
     const myGeoData = resWeather.location;
     const myWeatherData = resWeather.current;
-    console.log(resWeather);
     city.innerText =
       myGeoData.region.length > 0
         ? `${myGeoData.name}, ${myGeoData.region}, ${myGeoData.country}`
         : `${myGeoData.name}, ${myGeoData.country}`;
 
-    temperature.innerHTML = `${myWeatherData.temperature}&#176;C <span id="feelsLike">(Feels like ${myWeatherData.feelslike}&#176;C)</span>`;
+    temperature.innerHTML = `${myWeatherData.temp_c}&#176;C <span id="feelsLike">(Feels like ${myWeatherData.feelslike_c}&#176;C)</span>`;
 
     for (let key in weatherCodes) {
       let value = weatherCodes[key];
       for (code of value) {
-        if (code == myWeatherData.weather_code) {
+        if (code == myWeatherData.condition.icon.slice(-7, -4)) {
           illustration.setAttribute("src", `./assets/img/${key}.png`);
         } else {
           illustration.setAttribute("src", `./assets/img/default.png`);
