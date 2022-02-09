@@ -1,11 +1,25 @@
+:root {
+  --primary-bg: #fff;
+  --primary-text: #0d6efd;
+  /* For body background only */
+  --snow: linear-gradient(to bottom right, #2d419a, #1ce6f3);
+  --rain: linear-gradient(to bottom right, #202020, #111119);
+  --sunny: linear-gradient(to bottom right, #fdc830, #f37335);
+  --storm: linear-gradient(to bottom right, #bdc3c7, #2c3e50);
+  --wind: linear-gradient(to bottom right, #a8c0ff, #3f2b96);
+  --clouds: linear-gradient(to bottom right, #8e9eab, #eef2f3);
+}
+
 * {
   margin: 0;
   padding: 0;
   font-family: "Josefin Sans", Helvetica, sans-serif;
+  transition: all 0.3s ease-in;
 }
 
 body {
   height: 100vh;
+  background: var(--primary-bg) no-repeat;
 }
 
 #heading {
@@ -41,15 +55,16 @@ body {
 
 #result option {
   width: 100%;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: var(--primary-bg);
+  border: 1px solid var(--primary-text);
   word-wrap: break-word;
   padding: 5px 10px;
   cursor: pointer;
   z-index: 1;
 }
+
 #result option:hover {
-  background-color: #0d6efd;
+  background-color: var(--primary-text);
   color: #fff;
 }
 

@@ -34,7 +34,7 @@ async function fetchWeather(e) {
     const res = await req.json();
     const geoData = res.location;
     const weatherData = res.current;
-    console.log(res);
+    // console.log(res);
     city.innerText =
       geoData.region.length > 0
         ? `${geoData.name}, ${geoData.region}, ${geoData.country}`
@@ -46,6 +46,8 @@ async function fetchWeather(e) {
       let value = weatherCodes[key];
       for (code of value) {
         if (code == weatherData.condition.icon.slice(-7, -4)) {
+          document.getElementById("body").style.background = `var(--${key})`;
+          console.log(key);
           illustration.setAttribute("src", `./assets/img/${key}.png`);
         }
       }
