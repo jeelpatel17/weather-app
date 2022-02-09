@@ -35,14 +35,17 @@
     <div id="weatherCard">
       <h2 id="heading">How's the Weather?</h2>
       <div class="d-flex flex-column">
-        <input
-          class="form-control my-3"
-          type="search"
-          name="city"
-          id="cityInp"
-          placeholder="Enter City"
-        />
-        <button class="btn btn-primary my-1" id="searchBtn">Search</button>
+        <form id="form" autocomplete="off">
+          <input
+            class="form-control my-3"
+            type="search"
+            name="city"
+            id="cityInp"
+            placeholder="Search a city..."
+          />
+          <div id="result"></div>
+          <button class="btn btn-primary my-1" id="searchBtn">Search</button>
+        </form>
         <button class="btn btn-outline-primary my-1" id="detectLocation">
           My Location
         </button>

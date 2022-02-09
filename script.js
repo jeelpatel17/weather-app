@@ -3,6 +3,7 @@ let weatherInfo = document.getElementById("weatherInfo");
 let temperature = document.getElementById("temperature");
 let illustration = document.getElementById("illustration");
 let cityInp = document.getElementById("cityInp");
+let results = document.getElementById("result");
 let searchBtn = document.getElementById("searchBtn");
 let detectLocationBtn = document.getElementById("detectLocation");
 let weatherCodes = {
@@ -21,7 +22,9 @@ let weatherCodes = {
 };
 
 // TO FETCH WEATHER ON USER INPUT
-async function fetchWeather() {
+async function fetchWeather(e) {
+  e.preventDefault();
+  results.innerHTML = "";
   weatherInfo.style.display = "flex";
   city.innerText = "Loading...";
   if (cityInp.value.length > 0) {
@@ -32,7 +35,10 @@ async function fetchWeather() {
     const geoData = res.location;
     const weatherData = res.current;
     console.log(res);
-    city.innerText = `${geoData.name}, ${geoData.region}, ${geoData.country}`;
+    city.innerText =
+      geoData.region.length > 0
+        ? `${geoData.name}, ${geoData.region}, ${geoData.country}`
+        : `${geoData.name}, ${geoData.country}`;
     temperature.innerHTML = `${weatherData.temp_c}&#176;C <span id="feelsLike">(Feels like ${weatherData.feelslike_c}&#176;C)</span>`;
     cityInp.value = "";
     // Displaying illustration according to the weather code
@@ -46,7 +52,33 @@ async function fetchWeather() {
     }
   }
 }
+async function autoComplete() {
+  results.style.display = "flex";
+  if (cityInp.value.length > 0) {
+    let req = await fetch(
+      `https://api.weatherapi.com/v1/search.json?key=fe4faa93b1ac442384a121612220602&q=${cityInp.value}`
+    );
+    const res = await req.json();
+    results.innerHTML = "";
+    res.forEach((e, i) => {
+      results.innerHTML += `<option class="cityNames">${e.name}, ${e.country}</option>`;
+    });
+    // Attaching an event listener on every <li> element so that the user can click on it and to select it to check its weather
+    Array.from(document.getElementsByClassName("cityNames")).forEach((e) =>
+      e.addEventListener("click", () => {
+        cityInp.value = e.textContent;
+        results.innerHTML = "";
+      })
+    );
+  } else {
+    results.innerHTML = "";
+    results.style.display = "none";
+  }
+}
+
 searchBtn.addEventListener("click", fetchWeather);
+// Everytime the user types something, it'll return the potential city names that use may want to check the weather of
+cityInp.addEventListener("input", autoComplete);
 
 // TO FETCH WEATHER ACCORDING TO THE USER'S LOCATION
 detectLocationBtn.addEventListener("click", geoFindMe);
