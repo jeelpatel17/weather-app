@@ -3,31 +3,41 @@
   --primary-text: #0d6efd;
   /* For body background only */
   --snow: linear-gradient(to bottom right, #2d419a, #1ce6f3);
-  --rain: linear-gradient(to bottom right, #202020, #111119);
+  --snow-bg: #2d419a;
+  --rain: linear-gradient(to bottom right, #159957, #155799);
+  --rain-bg: #155799;
   --sunny: linear-gradient(to bottom right, #fdc830, #f37335);
+  --sunny-bg: #f37335;
   --storm: linear-gradient(to bottom right, #bdc3c7, #2c3e50);
+  --storm-bg: #2c3e50;
   --wind: linear-gradient(to bottom right, #a8c0ff, #3f2b96);
+  --wind-bg: #a8c0ff;
   --clouds: linear-gradient(to bottom right, #8e9eab, #eef2f3);
+  --clouds-bg: #8e9eab;
 }
 
 * {
   margin: 0;
   padding: 0;
   font-family: "Josefin Sans", Helvetica, sans-serif;
-  transition: all 0.3s ease-in;
+  transition: all 0.2s ease-in;
 }
 
 body {
   height: 100vh;
   background: var(--primary-bg) no-repeat;
+  /* color: var(--primary-bg); */
 }
 
 #heading {
   text-align: center;
+  font-weight: 700;
+}
+
+.clip {
   background: -webkit-linear-gradient(45deg, #09009f, #00ff95 80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-weight: 700;
 }
 
 #weatherCard {
@@ -44,6 +54,7 @@ body {
 
 #searchBtn {
   width: 100%;
+  background-color: var(--primary-text);
 }
 
 #result {
@@ -61,18 +72,21 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   z-index: 1;
+  color: var(--primary-text);
 }
 
 #result option:hover {
   background-color: var(--primary-text);
-  color: #fff;
+  color: var(--primary-bg);
 }
 
 #illustration {
   height: auto;
   width: 200px;
+  -webkit-filter: drop-shadow(0 0 80px rgb(255, 234, 0, 0.8));
+  filter: drop-shadow(0 0 80px rgba(255, 234, 0, 0.8));
 }
 
 #feelsLike {
-  opacity: 0.6;
+  opacity: 0.7;
 }

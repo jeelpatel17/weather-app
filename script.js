@@ -1,4 +1,6 @@
 let city = document.getElementById("city");
+let body = document.getElementById("body");
+let heading = document.getElementById("heading");
 let weatherInfo = document.getElementById("weatherInfo");
 let temperature = document.getElementById("temperature");
 let illustration = document.getElementById("illustration");
@@ -34,7 +36,7 @@ async function fetchWeather(e) {
     const res = await req.json();
     const geoData = res.location;
     const weatherData = res.current;
-    // console.log(res);
+    console.log(`fetched weather`, res);
     city.innerText =
       geoData.region.length > 0
         ? `${geoData.name}, ${geoData.region}, ${geoData.country}`
@@ -46,14 +48,22 @@ async function fetchWeather(e) {
       let value = weatherCodes[key];
       for (code of value) {
         if (code == weatherData.condition.icon.slice(-7, -4)) {
-          document.getElementById("body").style.background = `var(--${key})`;
-          console.log(key);
+          // Changing the illustration displayed and overall site theme according to the weather
           illustration.setAttribute("src", `./assets/img/${key}.png`);
+          body.style.background = `var(--${key})`;
+          body.style.color = `var(--primary-bg)`;
+          searchBtn.style.backgroundColor = `var(--${key}-bg)`;
+          searchBtn.style.borderColor = `var(--${key}-bg)`;
+          detectLocationBtn.style.borderColor = `var(--${key}-bg)`;
+          detectLocationBtn.style.color = `#fff`;
+          // console.log(key);
+          heading.classList.remove("clip");
         }
       }
     }
   }
 }
+
 async function autoComplete() {
   results.style.display = "flex";
   if (cityInp.value.length > 0) {
@@ -111,6 +121,8 @@ function geoFindMe() {
       `https://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${displayCity}&aqi=no`
     );
     const resWeather = await reqWeather.json();
+    console.log(`located weather`, resWeather);
+    // console.log(resWeather);
     const myGeoData = resWeather.location;
     const myWeatherData = resWeather.current;
     city.innerText =
@@ -123,10 +135,18 @@ function geoFindMe() {
     for (let key in weatherCodes) {
       let value = weatherCodes[key];
       for (code of value) {
-        if (code == myWeatherData.condition.icon.slice(-7, -4)) {
-          illustration.setAttribute("src", `./assets/img/${key}.png`);
-        } else {
+        if (code != myWeatherData.condition.icon.slice(-7, -4)) {
           illustration.setAttribute("src", `./assets/img/default.png`);
+        } else {
+          illustration.setAttribute("src", `./assets/img/${key}.png`);
+          body.style.background = `var(--${key})`;
+          body.style.color = `var(--primary-bg)`;
+          searchBtn.style.backgroundColor = `var(--${key}-bg)`;
+          searchBtn.style.borderColor = `var(--${key}-bg)`;
+          detectLocationBtn.style.borderColor = `var(--${key}-bg)`;
+          detectLocationBtn.style.color = `#fff`;
+          heading.classList.remove("clip");
+          return;
         }
       }
     }
