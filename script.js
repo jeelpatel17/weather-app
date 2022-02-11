@@ -30,10 +30,15 @@ async function fetchWeather(e) {
   weatherInfo.style.display = "flex";
   city.innerText = "Loading...";
   if (cityInp.value.length > 0) {
-    let req = await fetch(
+    let req;
+    req = await fetch(
       `https://api.weatherapi.com/v1/current.json?key=fe4faa93b1ac442384a121612220602&q=${cityInp.value}&aqi=no`
     );
     const res = await req.json();
+    if (res.error) {
+      city.innerText = `City not found! :(`;
+      return 1;
+    }
     const geoData = res.location;
     const weatherData = res.current;
     console.log(`fetched weather`, res);
@@ -50,17 +55,28 @@ async function fetchWeather(e) {
         if (code == weatherData.condition.icon.slice(-7, -4)) {
           // Changing the illustration displayed and overall site theme according to the weather
           illustration.setAttribute("src", `./assets/img/${key}.png`);
-          body.style.background = `var(--${key})`;
+          body.style.backgroundImage = `var(--${key})`;
           body.style.color = `var(--primary-bg)`;
+          if (!body.classList.contains("animateBg")) {
+            body.classList.add("animateBg");
+          }
           searchBtn.style.backgroundColor = `var(--${key}-bg)`;
-          searchBtn.style.borderColor = `var(--${key}-bg)`;
-          detectLocationBtn.style.borderColor = `var(--${key}-bg)`;
+          searchBtn.style.borderColor = `#fff`;
+          detectLocationBtn.style.borderColor = `#fff`;
           detectLocationBtn.style.color = `#fff`;
-          // console.log(key);
           heading.classList.remove("clip");
         }
       }
     }
+  }
+  // If someone doesn't enter a city name
+  else {
+    city.innerText = "Please enter a city name first!";
+    illustration.removeAttribute("src");
+    temperature.textContent = "";
+    setTimeout(() => {
+      weatherInfo.style.display = "none";
+    }, 3000);
   }
 }
 
@@ -139,13 +155,16 @@ function geoFindMe() {
           illustration.setAttribute("src", `./assets/img/default.png`);
         } else {
           illustration.setAttribute("src", `./assets/img/${key}.png`);
-          body.style.background = `var(--${key})`;
-          body.style.color = `var(--primary-bg)`;
-          searchBtn.style.backgroundColor = `var(--${key}-bg)`;
-          searchBtn.style.borderColor = `var(--${key}-bg)`;
-          detectLocationBtn.style.borderColor = `var(--${key}-bg)`;
+          detectLocationBtn.style.borderColor = `#fff`;
           detectLocationBtn.style.color = `#fff`;
           heading.classList.remove("clip");
+          body.style.backgroundImage = `var(--${key})`;
+          body.style.color = `var(--primary-bg)`;
+          if (!body.classList.contains("animateBg")) {
+            body.classList.add("animateBg");
+          }
+          searchBtn.style.backgroundColor = `var(--${key}-bg)`;
+          searchBtn.style.borderColor = `#fff`;
           return;
         }
       }

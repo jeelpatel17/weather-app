@@ -2,18 +2,23 @@
   --primary-bg: #fff;
   --primary-text: #0d6efd;
   /* For body background only */
-  --snow: linear-gradient(to bottom right, #2d419a, #1ce6f3);
-  --snow-bg: #2d419a;
-  --rain: linear-gradient(to bottom right, #159957, #155799);
+  --snow: linear-gradient(to bottom right, #2d419a, #1ce6f3, #2d419a);
+  --snow-bg: #21b9db;
+  --rain: linear-gradient(to bottom right, #159957, #155799, #159957);
   --rain-bg: #155799;
-  --sunny: linear-gradient(to bottom right, #fdc830, #f37335);
+  --sunny: linear-gradient(to bottom right, #fdc830, #f37335, #fdc830);
   --sunny-bg: #f37335;
-  --storm: linear-gradient(to bottom right, #bdc3c7, #2c3e50);
+  --storm: linear-gradient(to bottom right, #bdc3c7, #2c3e50, #bdc3c7);
   --storm-bg: #2c3e50;
-  --wind: linear-gradient(to bottom right, #a8c0ff, #3f2b96);
+  --wind: linear-gradient(to bottom right, #a8c0ff, #3f2b96, #a8c0ff);
   --wind-bg: #a8c0ff;
-  --clouds: linear-gradient(to bottom right, #8e9eab, #eef2f3);
+  --clouds: linear-gradient(to bottom right, #8e9eab, #eef2f3, #8e9eab);
   --clouds-bg: #8e9eab;
+}
+
+::selection {
+  color: #000;
+  background-color: #fff;
 }
 
 * {
@@ -24,9 +29,25 @@
 }
 
 body {
+  background: #fff;
   height: 100vh;
-  background: var(--primary-bg) no-repeat;
-  /* color: var(--primary-bg); */
+}
+
+.animateBg {
+  background-size: 600% 600%;
+  animation: gradient 6s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 #heading {
@@ -35,9 +56,16 @@ body {
 }
 
 .clip {
-  background: -webkit-linear-gradient(45deg, #09009f, #00ff95 80%);
+  background: linear-gradient(90deg, #007cf0, #00dfd8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+#cityInp:focus,
+#searchBtn,
+#detectLocation {
+  box-shadow: none;
 }
 
 #weatherCard {
@@ -52,9 +80,19 @@ body {
   text-align: center;
 }
 
+.btn {
+  border-width: 3px;
+  border-radius: 9px;
+}
+
 #searchBtn {
   width: 100%;
   background-color: var(--primary-text);
+}
+
+#detectLocation:hover {
+  background-color: transparent;
+  color: #0d6efd;
 }
 
 #result {
